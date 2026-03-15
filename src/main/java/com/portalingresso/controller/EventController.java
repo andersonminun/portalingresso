@@ -39,4 +39,10 @@ public class EventController {
         
         return ResponseEntity.ok(events);
     }
+
+    @GetMapping("/teste")
+    public ResponseEntity<String> teste() {
+        
+        return ResponseEntity.ok("Teste");
+    }
 }
