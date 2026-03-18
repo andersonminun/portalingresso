@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portalingresso
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portalingresso
+  template:
+    metadata:
+      labels:
+        app: portalingresso
+    spec:
+      containers:
+      - name: portalingresso-container
+        image: portalingresso:latest 
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 25
+          periodSeconds: 10
+        env:
+          - name: DB_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: DB_URL
+          - name: KAFKA_BOOTSTRAP
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: KAFKA_BOOTSTRAP
+
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: DB_PASSWORD
+          
+          - name: KAFKA_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: KAFKA_PASSWORD

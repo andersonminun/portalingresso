@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DB_URL: "jdbc:postgresql://portal-ingresso-db.c2vu8cuq66zg.us-east-1.rds.amazonaws.com/postgres"
+  KAFKA_BOOTSTRAP: "pkc-oxqxx9.us-east-1.aws.confluent.cloud:9092"
+  KAFKA_USERNAME: "TVMIBIH4T26SUTW5"
